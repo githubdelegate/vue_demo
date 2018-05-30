@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root">
+        <div @click="handleClick">
+            {{ message }}
+        </div>
+    </div>
+    <script>
+        Vue.components('item', {
+            template: '<div>ok</div>'
+        })
+
+        var vm = new Vue({
+            el: '#root',
+            data:{
+                message: 'hello'
+            },
+            beforeCreate:function(){
+                console.log('before')
+            },
+            created: function(){
+                console.log('created')
+            },
+            beforeMount: function(){
+                console.log(this.$el)
+            },
+            mounted: function(){
+                console.log(this.$el)
+            },
+            beforeDestroy: function(){
+
+            },
+            destroyed: function(){
+
+            },
+            beforeUpdate: function(){
+
+            },
+            updated: function(){
+
+            },
+            methods:{
+                handleClick: function(){
+
+                }
+            }
+        })
+    </script>
+</body>
+</html>
