@@ -81,26 +81,40 @@
             },
             // 计算属性，只有依赖的值发生变化后，才会重新计算，有缓存
             computed:{
-                fullname: function(){
-                    return this.firstname + "" + this.lastname
+                fullname: {
+                    get: function(){
+                        return this.firstname + "" + this.lastname
+                    },
+                    set: function(value){
+                        var arr = value.split(" ")
+                        this.firstname = arr[0]
+                        this.lastname = arr[1]
+                    }    
                 }
             },
-            // 普通方法
-            methods:{
-                fullname: function(){
-                    return this.firstname + "" + this.lastname
-                } 
-            },
+            // // 普通方法
+            // methods:{
+            //     fullname: function(){
+            //         return this.firstname + "" + this.lastname
+            //     } 
+            // },
             // 侦听器，有缓存
-            watch:{
-                firstname: function(){
-                    this.fullname = this.firstname + "" + this.lastname
-                },
-                lastname: function(){
-                    this.fullname = this.firstname + "" + this.lastname
-                }
-            }
+            // watch:{
+            //     firstname: function(){
+            //         this.fullname = this.firstname + "" + this.lastname
+            //     },
+            //     lastname: function(){
+            //         this.fullname = this.firstname + "" + this.lastname
+            //     }
+            // }
         })
+    </script>
+
+    <div id="app5">
+
+    </div>
+    <script>
+
     </script>
 </body>
 </html>
