@@ -22,12 +22,18 @@
             </todo-item>
         </ul>
     </div>
+    <!-- v-开头的后面都是js表达式 -->
+    <div id="app3">
+            <div>{{name}}</div>
+            <div v-text="name"></div>
+            <div v-html="name"></div>
+            </div>
     <script>
         var TodoItem = {
             props: ['content', 'index'],
             template: "<li @click='handleItemClick'>{{ content }}</li>",
             methods: {
-                handleItemClick = function(){
+                handleItemClick: function(){
                     this.$emit('delete', this.index)
                 }
             }
@@ -47,8 +53,51 @@
                     this.list.push(this.todoValue)
                     this.todoValue = ""
                 },
-                handleItemDelete = function(index){
+                handleItemDelete: function(index){
                     this.list.splice(index,1)
+                }
+            }
+        })
+        
+         var vm3 = new Vue({
+            el:"#app3",
+            data: {
+                name: "<h1> hellow</h1>"
+            }
+        })
+    </script>
+    <div style="color: crimson">----计算属性，方法，侦听器-----</div>
+    <div id="app4">
+        {{fullname}}
+        {{age}}
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app4",
+            data: {
+                firstname: "dell",
+                lastname: "jack",
+                age: 28
+            },
+            // 计算属性，只有依赖的值发生变化后，才会重新计算，有缓存
+            computed:{
+                fullname: function(){
+                    return this.firstname + "" + this.lastname
+                }
+            },
+            // 普通方法
+            methods:{
+                fullname: function(){
+                    return this.firstname + "" + this.lastname
+                } 
+            },
+            // 侦听器，有缓存
+            watch:{
+                firstname: function(){
+                    this.fullname = this.firstname + "" + this.lastname
+                },
+                lastname: function(){
+                    this.fullname = this.firstname + "" + this.lastname
                 }
             }
         })
