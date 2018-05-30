@@ -7,6 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <title>Document</title>
+    <style>
+        .active{
+            color: red
+        }
+    </style>
 </head>
 <body>
     <div id="root">
@@ -111,10 +116,22 @@
     </script>
 
     <div id="app5">
-
+        <div @click="handleClick"
+             :class="{active: isactive}"
+        >xxxxxx</div>
     </div>
     <script>
-
+        var app5 = new Vue({
+            el:"#app5",
+            data:{
+                isactive: false
+            },
+            methods:{
+                handleClick: function(){
+                    this.isactive = !this.isactive
+                }
+            }
+        })
     </script>
 </body>
 </html>
