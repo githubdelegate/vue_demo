@@ -133,5 +133,131 @@
             }
         })
     </script>
+
+
+
+
+    <div id="app6">
+        <counter ref="one" @change="handlechange"></counter>
+        <counter ref="two" @change="handlechange"></counter>
+        <div>{{ total }}</div>
+    </div>
+    <script>
+        Vue.component('counter', {
+            template: '<div @click="handle_click">{{ number }}</div>',
+            data: function(){
+                return { number: 0 }
+            },
+            methods: {
+                handle_click: function(){
+                    this.number++
+                    this.$emit('change')
+                }
+            }
+        })
+        var vm = new Vue({
+            el:"#app6",
+            data: {
+                total: 0
+            },
+            methods:{
+                handlechange: function(){
+                    this.total = this.$refs.one.number + this.$refs.two.number
+                    console.log(this.$refs.one.number)
+                    console.log(this.$refs.two.number)
+                }
+            }
+        })
+    </script>
+
+    <h3>父子组件传值</h3>
+    <!-- 父组件 通过 属性 给子组件传值 -->
+    <!-- 子ོ组ོ件使用 props 接受父组件传递过来的数据, -->
+    <!-- 但是不能直接更改他,因为可能其他子组件也在使用,需要自己复制一份数据,单向数据流 -->
+    <div id="app7">
+        <counter :count="1"></counter>
+        <counter :count="4"></counter>
+    </div>
+    <script>
+        var counter = {
+            props: ['count'], 
+            data: function(){
+                return {
+                    number: this.count
+                }
+            },
+            template: '<div @click="handleclick">{{ number }}</div>',
+            methods: {
+                handleclick: function(){
+                    this.number++;
+                    // 子组件 通过 emit 事件触发 传递数据给父组件,
+                    this.$emit('chang', 2)
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app7',
+        })
+    </script>
+
+    <!-- 组件参数校验与非 props 特性 -->
+    <!-- 就是子组件能够校验父组件传递过来的数据的类型,等信息是否满足 -->
+    <div id="app8">
+            <child :content="1"></child >
+                <child :content="1"></child >
+        </div>
+        <script>
+            // 子组件 不接受的属性就叫 非props 属性, dom 标签会显示
+            Vue.component('child', {
+                props: {
+                    // 只接受 数字和串类型
+                    // content: [Number, String]
+                    content: {
+                        type: String, // 接受 string 
+                        required: true, // 必传
+                        default: 'value', // 默认值
+                        validator: function(value){ // 长度
+                            return value.length > 5
+                        }
+                    }
+                },
+                template: '<div>{{ content }}</div>'
+            })
+    
+            var vm = new Vue({
+                el: '#app8',
+            })
+        </script>
+
+        <!-- 给组件绑定原生事件 -->
+        <div id="app9">
+                <!-- 这里这个事件是 自定义事件,因为 child 值咱们自定义的 模块 ,要触发自定义使用 emit-->
+                <!-- <child @click="handleclick"></child>  -->
+                <!-- 如何绑定原生事件 -->
+                <child @click.navite="handleclick"></child>  
+            </div>
+            <script>
+                Vue.component('child', {
+                    props: ['count'], 
+                    // 这个叫原生事件 ,因为绑定的原生 div 标签
+                    template: '<div @click="handleclick">{{ number }}</div>',
+                    methods: {
+                        handleclick: function(){
+
+                        }
+                    }
+                }
+                )
+        
+                var vm = new Vue({
+                    el: '#app7',
+                    methods: {
+                        handleclick: function(){
+                            alert('alert')
+                        }
+                    }
+                })
+            </script>
 </body>
 </html>
