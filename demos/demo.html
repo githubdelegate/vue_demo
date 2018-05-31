@@ -201,11 +201,10 @@
         })
     </script>
 
-    <!-- 组件参数校验与非 props 特性 -->
+    <!-- 8.组件参数校验与非 props 特性 -->
     <!-- 就是子组件能够校验父组件传递过来的数据的类型,等信息是否满足 -->
     <div id="app8">
-            <child :content="1"></child >
-                <child :content="1"></child >
+            <child :content="12342324"></child >
         </div>
         <script>
             // 子组件 不接受的属性就叫 非props 属性, dom 标签会显示
@@ -214,12 +213,12 @@
                     // 只接受 数字和串类型
                     // content: [Number, String]
                     content: {
-                        type: String, // 接受 string 
-                        required: true, // 必传
-                        default: 'value', // 默认值
-                        validator: function(value){ // 长度
-                            return value.length > 5
-                        }
+                        type: Number, // 接受 string 
+                        // required: true, // 必传
+                        // default: 'value', // 默认值
+                        // validator: function(value){ // 长度
+                        //     return value.length > 5
+                        // }
                     }
                 },
                 template: '<div>{{ content }}</div>'
@@ -230,9 +229,9 @@
             })
         </script>
 
-        <!-- 给组件绑定原生事件 -->
-        <div id="app9">
-                <!-- 这里这个事件是 自定义事件,因为 child 值咱们自定义的 模块 ,要触发自定义使用 emit-->
+        <!-- 9. 给组件绑定原生事件 -->
+         <div id="app9">
+                <!-- 这里这个事件是 自定义事件,因为 child 值咱们自定义的 模块 ,要触发自定义使用 emit事件触发-->
                 <!-- <child @click="handleclick"></child>  -->
                 <!-- 如何绑定原生事件 -->
                 <child @click.navite="handleclick"></child>  
@@ -244,7 +243,6 @@
                     template: '<div @click="handleclick">{{ number }}</div>',
                     methods: {
                         handleclick: function(){
-
                         }
                     }
                 }
@@ -258,6 +256,96 @@
                         }
                     }
                 })
+            </script> 
+
+
+        <!-- 10.非父子组件传递数据-- Bus/ 总线/ 发布订阅/观察者模式 -->
+        <div id="app10"> 
+                <child content="jack"></child>  
+                <child content="rose"></child>  
+            </div>
+            <script>
+                Vue.prototype.bus = new Vue()
+                Vue.component('child', {
+                    data: function(){
+                      return { selfdata: this.content}
+                    },
+                    props:  {
+                        content: String
+                    },
+                    template: '<div @click="handleclick">{{ selfdata }}</div>',
+                    methods: {
+                        handleclick: function(){
+                           this.bus.$emit('change', this.selfdata)
+                        }
+                    },
+                    mounted: function(){
+                        var this_= this
+                        this.bus.$on('change', function(msg){
+                            this_.selfdata = msg
+                        })
+                    }
+                }
+                )
+                var vm = new Vue({
+                    el: '#app10',
+                })
             </script>
+
+
+            11  插槽
+           为了实现一个需求, 在我的自定义的模板前后插入其他内容,
+            <div id="app11">
+                    <child>
+                        <div class='header' slot='header'>hdaer</div>
+                        <div class='footer' slot='footer'>footer</div>
+                    </child>  
+                </div>
+                <script>
+                    Vue.component('child', {
+                        template: `<div>  <slot name='header'></slot>  <p>jack</p>  <slot name='footer'></slot> </div>`
+                        }
+                    )
+            
+                    var vm = new Vue({
+                        el: '#app11',
+                    })
+                </script> 
+    
+
+            12 动态组件
+            v-once 把组件放入内存中提高性能
+            <div id="app12">
+                    <!-- <child-1 v-if="type==='child-1'"></child-1> -->
+                    <!-- <child-2 v-if="type==='child-2'"> </child-2>   -->
+                    <!-- 这个就是动态组件 -->
+                    <component :is="type"></component>
+                    <button @click="handleclick">btn</button>
+                </div>
+                <script>
+                    Vue.component('child-1', {
+                        template: `<div> child 1 </div>`
+                        }
+                    )
+
+                    Vue.component('child-2', {
+                        template: `<div> child 2 </div>`
+                        }
+                    )
+            
+                    var vm = new Vue({
+                        el: '#app12',
+                        data: {
+                            type: 'child-1'
+                        },
+                        methods:{
+                            handleclick: function(){
+                                 this.type = this.type==='child-1' ? 'child-2' : 'child-1'
+                            }
+                        }
+                    })
+                </script> 
+    
+                
 </body>
 </html>
