@@ -1,18 +1,23 @@
 <template>
   <div id="app">
-      hello world
+    <musicheader></musicheader>
   </div>
 </template>
 
 <script>
+import Musicheader from 'components/m-header/m-header'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Musicheader
+  }
 }
 </script>
 
 <style scoped lang='stylus' rel="stylesheet/stylus">
-  @import "~common/stylus/variable"
-
-  #app
-    color: $color-theme
+  // @import "~common/stylus/variable"
+  // @import "~common/stylus/mixin"
+  // #app
+    // color: $color-theme
 </style>
