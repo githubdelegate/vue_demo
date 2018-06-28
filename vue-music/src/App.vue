@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <musicheader></musicheader>
+    <tab></tab>
   </div>
 </template>
 
 <script>
 import Musicheader from 'components/m-header/m-header'
-
+import Tab from 'components/tab/tab'
 export default {
   name: 'App',
   components: {
-    Musicheader
+    Musicheader,
+    Tab
   }
 }
 </script>
