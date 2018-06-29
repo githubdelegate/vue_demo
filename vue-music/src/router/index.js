@@ -1,21 +1,44 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Header from '@/components/m-header/m-header'
+// import HelloWorld from '@/components/HelloWorld'
+import Musicheader from '@/components/m-header/m-header'
+import Slider from '@/components/slider/slider'
+
+import Recommend from 'components/recommend/recommend'
+import Rank from 'components/rank/rank'
+import Search from 'components/search/search'
+import Singer from 'components/singer/singer'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/musicheader',
+      name: 'musicheader',
+      component: Musicheader
     },
     {
-      path: '/header',
-      name: 'header',
-      component: Header
+      path: '/slider',
+      name: 'slider',
+      component: Slider
+    },
+    {
+      path: '/recommend',
+      component: Recommend
+    },
+    {
+      path: '/rank',
+      component: Rank
+    },
+    {
+      path: '/singer',
+      component: Singer
+    },
+    {
+      path: '/search',
+      component: Search
     }
   ]
 })

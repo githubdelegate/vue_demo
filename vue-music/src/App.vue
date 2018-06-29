@@ -2,6 +2,7 @@
   <div id="app">
     <musicheader></musicheader>
     <tab></tab>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -18,8 +19,4 @@ export default {
 </script>
 
 <style scoped lang='stylus' rel="stylesheet/stylus">
-  // @import "~common/stylus/variable"
-  // @import "~common/stylus/mixin"
-  // #app
-    // color: $color-theme
 </style>
