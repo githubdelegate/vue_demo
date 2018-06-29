@@ -25,6 +25,10 @@ export default new Router({
       component: Slider
     },
     {
+      path: '/',
+      redirect: '/recommend' // 这样设置可以默认就让第一个推荐高亮显示
+    },
+    {
       path: '/recommend',
       component: Recommend
     },

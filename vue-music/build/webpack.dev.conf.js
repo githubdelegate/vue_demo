@@ -64,7 +64,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         to: config.dev.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+  })
   ]
 })
 

@@ -1,14 +1,35 @@
 <template>
-  <div class="slider" ref="slider">
-    <div class="slider-group" ref="sliderGroup"></div>
+  <div class="slider">
+    <div class="slider-group" ref="sliderGroup">
+      <slot></slot>
+    </div>
+    <div class="dots"></div>
   </div>
 </template>
 
-<script>
-  
+<script type="text/ecmascript-6">
+
 </script>
 
-<style lang="stylus" scoped>
-
+<style lang="stylus" scoped rel="stylesheet/stylus">
+@import "~common/stylus/variable"
+  .slider
+    min-height 1px
+    .slider-group
+      position relative
+      overflow hidden
+      white-space nowrap
+      .slider-item
+        float left
+        box-sizing border-box
+        overflow hidden
+        text-align center
+        a
+          display block
+          width 100%
+          overflow hidden
+          text-decoration none
+        img
+          display block
+          width 100%
 </style>
-
