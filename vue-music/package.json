@@ -19,7 +19,8 @@
     "jsonp": "^0.2.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^2.0.4",
+    "better-scroll": "^0.1.15"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
