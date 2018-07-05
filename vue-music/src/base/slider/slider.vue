@@ -4,6 +4,7 @@
       <slot></slot>
     </div>
     <div class="dots"></div>
+     <span class="dot" :class="{activate: currentPageIndex === index }" v-for="(item, index) in dots" :key="item"></span>
   </div>
 </template>
 
@@ -23,6 +24,12 @@ export default {
     interval: {
       type: Number,
       default: 4000
+    }
+  },
+  data() {
+    return {
+      dots: [],
+      currentPageIndex: 0
     }
   },
   mounted() {
@@ -53,7 +60,10 @@ export default {
         scrollX: true,
         scrollY: false,
         momentum: false,
-        snap: true
+        snap: true,
+        snapLoop: this.loop,
+        snapThreshold: 0.3,
+        snapSpeed: 400
       })
     }
   }
@@ -81,4 +91,22 @@ export default {
         img
           display block
           width 100%
+  .dots
+    position absolute
+    right 0
+    left 0
+    bottom 12px
+    text-align center
+    font-size 0
+    .dot
+      display inline-block
+      margin 0 4px
+      width 8px
+      height 8px
+      border-radius 50%
+      background $color-text-l
+      &.active
+        width 20px
+        border-radius 5px
+        background $color-text-ll
 </style>
