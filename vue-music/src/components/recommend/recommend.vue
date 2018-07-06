@@ -16,7 +16,7 @@
 
 <script type="text/ecmascript-6">
 import Slider from 'base/slider/slider'
-import {getRecommend} from 'api/recommend'
+import {getRecommend, getDissList} from 'api/recommend'
 import {ERR_OK} from 'api/config'
 export default {
   data() {
@@ -27,6 +27,7 @@ export default {
   created() {
     console.log('BENGIN  get recommend')
     this._getRecommend()
+    this._getDissList()
   },
   methods: {
     _getRecommend() {
@@ -35,6 +36,13 @@ export default {
         if (res.code === ERR_OK) {
           console.log(res)
           this.recommends = res.data.slider
+        }
+      })
+    },
+    _getDissList() {
+      getDissList().then((res) => {
+        if (res.code === ERR_OK) {
+          console.log(res)
         }
       })
     }
