@@ -2,7 +2,10 @@
   <div id="app">
     <musicheader></musicheader>
     <tab></tab>
-    <router-view></router-view>
+    <!-- // 缓存组件 不用重新渲染 -->
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
