@@ -3,8 +3,9 @@
     <div class="slider-group" ref="sliderGroup">
       <slot></slot>
     </div>
-    <div class="dots"></div>
-     <span class="dot" :class="{activate: currentPageIndex === index }" v-for="(item, index) in dots" :key="item"></span>
+    <div class="dots">
+      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="item"></span>
+    </div>
   </div>
 </template>
 
@@ -36,6 +37,7 @@ export default {
     setTimeout(() => {
       this._setSliderWidth()
       this._initSlider()
+      this._initDots()
     }, 20)
   },
   methods: {
@@ -65,6 +67,18 @@ export default {
         snapThreshold: 0.3,
         snapSpeed: 400
       })
+
+      this.slider.on('scrollEnd', () => {
+        let pageIndex = this.slider.getCurrentPage().pageX
+        console.log(pageIndex)
+        if (this.loop) {
+          pageIndex -= 1
+        }
+        this.currentPageIndex = pageIndex
+      })
+    },
+    _initDots() {
+      this.dots = new Array(this.children.length - 2)
     }
   }
 }
@@ -74,6 +88,7 @@ export default {
 @import "~common/stylus/variable"
   .slider
     min-height 1px
+    position relative
     .slider-group
       position relative
       overflow hidden
