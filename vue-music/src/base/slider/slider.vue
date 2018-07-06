@@ -36,12 +36,26 @@ export default {
   mounted() {
     setTimeout(() => {
       this._setSliderWidth()
-      this._initSlider()
+      // 先执行 initdots 后执行因为 BScroll 会 首尾会添加两个 div 方便 loop
       this._initDots()
+      this._initSlider()
+
+      if (this.autoPlay) {
+        console.log('begin play')
+        this._play()
+      }
     }, 20)
+
+    window.addEventListener('resize', () => {
+      if (!this.slider) {
+        return
+      }
+      this._setSliderWidth(true)
+      this.slider.refresh()
+    })
   },
   methods: {
-    _setSliderWidth() {
+    _setSliderWidth(resize) {
       this.children = this.$refs.sliderGroup.children
       let width = 0
       let sliderWidth = this.$refs.slider.clientWidth
@@ -52,7 +66,7 @@ export default {
         width += sliderWidth
       }
 
-      if (this.loop) {
+      if (this.loop && !resize) {
         width += 2 * sliderWidth
       }
       this.$refs.sliderGroup.style.width = width + 'px'
@@ -75,10 +89,22 @@ export default {
           pageIndex -= 1
         }
         this.currentPageIndex = pageIndex
+        clearTimeout(this.timer)
+        this._play()
       })
     },
     _initDots() {
-      this.dots = new Array(this.children.length - 2)
+      this.dots = new Array(this.children.length)
+    },
+
+    _play() {
+      let pageIndex = this.currentPageIndex + 1
+      if (this.loop) {
+        pageIndex += 1
+      }
+      this.timer = setTimeout(() => {
+        this.slider.goToPage(pageIndex, 0, 400)
+      }, this.interval)
     }
   }
 }
@@ -115,7 +141,7 @@ export default {
     font-size 0
     .dot
       display inline-block
-      margin 0 4px
+      margin 0 5px
       width 8px
       height 8px
       border-radius 50%
