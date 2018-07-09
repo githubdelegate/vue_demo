@@ -1,30 +1,30 @@
 <template>
-  <div class="recommend">
-    <scroll class="recommend-content">
+  <div class="recommend" ref="recommend">
+    <scroll class="recommend-content" :data="dissList">
       <div>
-        <div class="slider-wrapper">
-          <slider v-if="recommends.length">
+        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
+          <slider>
             <div v-for="item in recommends" :key="item">
               <a :href="item.linkUrl">
               <img :src="item.picUrl" alt="">
               </a>
             </div>
           </slider>
-      </div>
-      <div class="recommend-list">
-        <h1 class="list-title">热门歌单推荐</h1>
-        <ul class="list-content">
-          <li v-for="item in dissList" :key="item" class="list-item">
-            <div class="icon">
-              <img :src="item.imgurl" alt="" width="60" height="60">
-            </div>
-            <div class="text">
-              <h2 class="name" v-html="item.creator.name"></h2>
-              <p class="desc" v-html="item.dissname"></p>
-            </div>
-          </li>
-        </ul>
-      </div>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul class="list-content">
+            <li v-for="item in dissList" :key="item" class="list-item">
+              <div class="icon">
+                <img :src="item.imgurl" alt="" width="60" height="60">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </scroll>
   </div>
@@ -74,35 +74,47 @@ export default {
 
 <style lang="stylus" scoped rel="stylesheet/stylus">
 @import "~common/stylus/variable"
-.recommend-list
-  position relative
-  margin-top 10px
-  .list-title
-    text-align center
-    color $color-theme
-    line-height 65px
-    height 65px
-    font-size $font-size-medium
-  .list-content
-    .list-item
-      align-items center
-      display flex
-      padding 0 20px 20px 20px
-      .icon
-        flex  0 0 60px
-        width 60px
-        padding-right 20px
-      .text
-        display flex
-        flex-direction column
-        justify-content center
-        flex 1
-        line-height 20px
-        overflow hidden
+.recommend
+  position fixed
+  width 100%
+  top 88px
+  bottom 0
+  .recommend-content
+    height 100%
+    overflow hidden
+    .slider-wrapper
+      position relative
+      width 100%
+      overflow hidden
+    .recommend-list
+      position relative
+      margin-top 10px
+      .list-title
+        text-align center
+        color $color-theme
+        line-height 65px
+        height 65px
         font-size $font-size-medium
-        .name
-          margin-bottom 10px
-          color $color-text
-        .desc
-          color $color-text-d
+      .list-content
+        .list-item
+          align-items center
+          display flex
+          padding 0 20px 20px 20px
+        .icon
+          flex  0 0 60px
+          width 60px
+          padding-right 20px
+        .text
+          display flex
+          flex-direction column
+          justify-content center
+          flex 1
+          line-height 20px
+          overflow hidden
+          font-size $font-size-medium
+          .name
+            margin-bottom 10px
+            color $color-text
+          .desc
+            color $color-text-d
 </style>
