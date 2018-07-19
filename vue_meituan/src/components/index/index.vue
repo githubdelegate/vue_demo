@@ -1,5 +1,6 @@
 <template>
 <div class="index">
+  <!-- 轮播图 -->
   <div class="slider">
     <mt-swipe :auto="3000">
       <mt-swipe-item v-for="item in sliderData" :key="item">
@@ -7,9 +8,17 @@
       </mt-swipe-item>
     </mt-swipe>
   </div>
+  <!-- 分类按钮 -->
   <div class="types">
     <type-item v-for="type in types" :key="type" :ico="type.ico" :txt="type.txt"></type-item>
   </div>
+  <!-- 分割线 -->
+  <div class="crossline"></div>
+  <!-- 附近商家 -->
+  <div class="nearby">
+    <title-bar :txt="附近商家"></title-bar>
+  </div>
+  <!-- 底部 tabbar -->
   <tabbar></tabbar>
 </div>
 </template>
@@ -17,11 +26,13 @@
 <script>
 import Tabbar from 'base/tabbar/tabbar'
 import TypeItem from 'base/typeitem/typeitem'
+import TitleBar from 'base/titlebar/titlebar'
 
 export default {
   components: {
     Tabbar,
-    TypeItem
+    TypeItem,
+    TitleBar
   },
   data () {
     return {
@@ -101,5 +112,10 @@ export default {
     margin-bottom: 50px;
     background-color: #fff;
   }
+}
+.crossline {
+  width: 100%;
+  height: 16px;
+  background-color: #ebebeb;
 }
 </style>
