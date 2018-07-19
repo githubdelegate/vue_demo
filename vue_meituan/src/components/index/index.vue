@@ -17,6 +17,7 @@
   <!-- 附近商家 -->
   <div class="nearby">
     <title-bar :txt="附近商家"></title-bar>
+    <sell-list-item v-for="item in selllist" :key="item" :data="item"></sell-list-item>
   </div>
   <!-- 底部 tabbar -->
   <tabbar></tabbar>
@@ -27,12 +28,14 @@
 import Tabbar from 'base/tabbar/tabbar'
 import TypeItem from 'base/typeitem/typeitem'
 import TitleBar from 'base/titlebar/titlebar'
-
+import SellListItem from 'base/selllistitem/selllistitem'
+import axios from 'axios'
 export default {
   components: {
     Tabbar,
     TypeItem,
-    TitleBar
+    TitleBar,
+    SellListItem
   },
   data () {
     return {
@@ -83,8 +86,25 @@ export default {
           ico: require('./img/types/types (7).png'),
           txt: '精品小吃'
         }
-      ]
+      ],
+      selllist: []
     }
+  },
+  methods: {
+    // 请求商家列表
+    _initSelllist () {
+      axios.get('/api/selllist').then(res => {
+        if (res.data.code === 0) {
+          this.selllist = res.data.data.data.poilist
+          console.log(this.selllist)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  created () {
+    this._initSelllist()
   }
 }
 </script>

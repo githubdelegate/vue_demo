@@ -9,6 +9,10 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const express = require('express')
+const app = express()
+let selllist = require('../mock/selllist.json')
+var apiRoutes = express.Router()
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -42,6 +46,17 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
+    },
+    // 返回模拟数据
+    before(app) {
+      console.log('begin register api router')
+      apiRoutes.get("/selllist", function (req, res) {
+        res.json({
+          code: 0,
+          data: selllist
+        })
+      })
+      app.use('/api', apiRoutes)
     }
   },
   plugins: [
