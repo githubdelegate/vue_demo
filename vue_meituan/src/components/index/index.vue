@@ -10,7 +10,7 @@
   </div>
   <!-- 分类按钮 -->
   <div class="types">
-    <type-item v-for="type in types" :key="type" :ico="type.ico" :txt="type.txt"></type-item>
+    <type-item v-for="type in types" :key="type" :ico="type.ico" :txt="type.txt" @toList="toList(type)"></type-item>
   </div>
   <!-- 分割线 -->
   <div class="crossline"></div>
@@ -29,13 +29,15 @@ import Tabbar from 'base/tabbar/tabbar'
 import TypeItem from 'base/typeitem/typeitem'
 import TitleBar from 'base/titlebar/titlebar'
 import SellListItem from 'base/selllistitem/selllistitem'
+import RestaurantList from 'components/index/restaurant-list/restaurant-list'
 import axios from 'axios'
 export default {
   components: {
     Tabbar,
     TypeItem,
     TitleBar,
-    SellListItem
+    SellListItem,
+    RestaurantList
   },
   data () {
     return {
@@ -100,6 +102,12 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+      })
+    },
+    // 点击分类按钮 跳转到列表页面
+    toList () {
+      this.$router.push({
+        path: '/restaurant_list'
       })
     }
   },

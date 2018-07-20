@@ -12,6 +12,8 @@ const portfinder = require('portfinder')
 const express = require('express')
 const app = express()
 let selllist = require('../mock/selllist.json')
+let restaurantList = require('../mock/restaurant-list.json')
+
 var apiRoutes = express.Router()
 
 const HOST = process.env.HOST
@@ -54,6 +56,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           code: 0,
           data: selllist
+        })
+      })
+      apiRoutes.get("/restaurantList", function (req, res) {
+        res.json({
+          code: 0,
+          data: restaurantList
         })
       })
       app.use('/api', apiRoutes)
