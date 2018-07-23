@@ -41,6 +41,12 @@ export default {
         return {}
       }
     }
+  },
+  methods: {
+    toRestaurant (data) {
+      console.log('sell res')
+      this.$emit('toRestaurant', data)
+    }
   }
 }
 </script>

@@ -13,6 +13,7 @@ const express = require('express')
 const app = express()
 let selllist = require('../mock/selllist.json')
 let restaurantList = require('../mock/restaurant-list.json')
+let seller = require('../mock/seller.json')
 
 var apiRoutes = express.Router()
 
@@ -62,6 +63,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           code: 0,
           data: restaurantList
+        })
+      })
+      apiRoutes.get("/seller", function (req, res) {
+        res.json({
+          code: 0,
+          data: seller.seller
         })
       })
       app.use('/api', apiRoutes)

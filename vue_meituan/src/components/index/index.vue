@@ -17,7 +17,7 @@
   <!-- 附近商家 -->
   <div class="nearby">
     <title-bar :txt="附近商家"></title-bar>
-    <sell-list-item v-for="item in selllist" :key="item" :data="item"></sell-list-item>
+    <sell-list-item v-for="item in selllist" :key="item" :data="item" @toResturant="toResturant"></sell-list-item>
   </div>
   <!-- 底部 tabbar -->
   <tabbar></tabbar>
@@ -108,6 +108,13 @@ export default {
     toList () {
       this.$router.push({
         path: '/restaurant_list'
+      })
+    },
+    toResturant (data) {
+      console.log('sell res index')
+      console.log('sss', data)
+      this.$router.push({
+        path: '/restaurant_detail'
       })
     }
   },
