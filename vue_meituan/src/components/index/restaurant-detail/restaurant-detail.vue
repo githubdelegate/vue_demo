@@ -1,9 +1,8 @@
 <template>
   <div class="restaurant-detail">
-    <seller-header></seller-header>
+    <seller-header :seller="seller"></seller-header>
   </div>
 </template>
-
 <script>
 import SellerHeader from 'base/seller-header/seller-header'
 import axios from 'axios'
@@ -23,13 +22,23 @@ export default {
       axios.get('/api/seller?id=' + this.id).then(res => {
         if (res.data.code === 0) {
           this.seller = Object.assign({}, this.seller, res.data.data)
-          console.log(this.seller)
+          console.log('this.seller %o', this.seller)
         }
       })
+    },
+    _getQueryData () {
+      this.seller = this.$route.query.data
+      console.log(' get query data %o', this.seller)
     }
   },
   created () {
+    // console.log('detail')
+    // this.seller = this.$route.query.data
+    // console.log(' get query data %o', this.seller)
     this._initData()
+  },
+  watch: {
+    '$route': '_getQueryData'
   }
 }
 </script>
