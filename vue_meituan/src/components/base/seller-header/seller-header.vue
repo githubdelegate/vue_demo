@@ -29,6 +29,10 @@
       <span class="text">{{ seller.bulletin }}</span>
       <i class="icon-keyboard_arrow_right"></i>
     </div>
+
+    <div class="background">
+      <img :src="seller.avatar" alt="">
+    </div>
   </div>
 </template>
 <script>
@@ -133,8 +137,8 @@ export default {
           line-height: 24px;
         }
       }
-    }
-    .bulletin-wrapper {
+  }
+  .bulletin-wrapper {
         position: relative;
         height: 28px;
         line-height: 28px;
@@ -161,6 +165,19 @@ export default {
           right: 12px;
           font-size: 10px;
         }
-      }
+  }
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      filter: blur(10px);
+    }
+  }
 }
 </style>
