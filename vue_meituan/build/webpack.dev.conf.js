@@ -71,6 +71,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           data: seller.seller
         })
       })
+      apiRoutes.get("/goods", function (req, res) {
+        res.json({
+          code: 0,
+          data: seller.goods
+        })
+      })
       app.use('/api', apiRoutes)
     }
   },
