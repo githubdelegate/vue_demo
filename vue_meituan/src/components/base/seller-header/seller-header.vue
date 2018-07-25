@@ -19,12 +19,13 @@
           <span class="text">{{ seller.supports[0].description }}</span>
         </div>
       </div>
-      <div class="supports-count">
+      <!-- 显示活动个数 -->
+      <div class="supports-count" v-if="seller.supports" @click="detailShow = true">
         <span>{{ seller.supports.length }}个活动</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
     </div>
-    <div class="bulletin-wrapper">
+    <div class="bulletin-wrapper" @click="detailShow = true">
       <span class="brand"></span>
       <span class="text">{{ seller.bulletin }}</span>
       <i class="icon-keyboard_arrow_right"></i>
@@ -34,15 +35,58 @@
       <img :src="seller.avatar" alt="">
     </div>
 
+    <!-- 浮层 -->
+    <transition name="fade">
+      <div class="detail" v-show="detailShow">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{ seller.name }}</h1>
+            <div class="star-wrapper">
+              <star :size="48" :score="seller.score"></star>
+            </div>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul class="detail-supports" v-if="seller.supports">
+              <li class="supports-item" v-for="(item, index) in seller.supports" :key="item">
+                <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+                <span class="text">{{ seller.supports[index].description }}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+
+            <div class="detail-text">
+              <p class="text">{{ seller.bulletin }}</p>
+            </div>
+          </div>
+        </div>
+      <div class="detail-close" @click="detailShow = false">
+        <i class="icon-close"></i>
+      </div>
+      </div>
+    </transition>
+
     <div class="back" @click="back">
       <i class="icon-arrow_lift"></i>
     </div>
   </div>
 </template>
 <script>
+import Star from '@/components/base/star/star'
 export default {
+  components: {
+    Star
+  },
   data () {
     return {
+      detailShow: false, // 是否显示浮层
+      classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee']
     }
   },
   props: {
@@ -206,6 +250,106 @@ export default {
       color: #fff;
       padding: 7px;
     }
+  }
+
+  .detail {
+    @include over-screen();
+    z-index: 100;
+    background-color: rgba(7, 17, 27, 0.8);
+    overflow: auto;
+    .detail-wrapper {
+      min-height: 100%;
+      .detail-main {
+        padding-top: 64px;
+        padding-bottom: 64px;
+        .name {
+          text-align: center;
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 16px;
+        }
+        .star-wrapper {
+          margin-top: 18px;
+          padding: 2px 0;
+          text-align: center;
+        }
+        .title {
+          display: flex;
+          width: 80%;
+          margin: 28px auto;
+          .line {
+            flex: 1;
+            position: relative;
+            top: -6px;
+            left: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2)
+          }
+        }
+        .detail-supports {
+          width: 80%;
+          margin: 0 auto;
+          .supports-item {
+            padding: 0 12px;
+            margin-bottom: 12px;
+            font-size: 0; // 可以用来控制设置 li 之间的段落间距
+            &:last-child {
+              margin-bottom: 0;
+            }
+            .icon {
+              width: 16px;
+              height: 16px;
+              vertical-align: top;
+              margin-right: 6px;
+              background-size: 16px 16px;
+              background-repeat: no-repeat;
+              display: inline-block;
+              &.decrease {
+                @include bg-image('./img/decrease_2');
+              }
+              &.discount {
+                @include bg-image('./img/discount_2');
+              }
+              &.guarantee {
+                @include bg-image('./img/guarantee_2');
+              }
+              &.invoice {
+                @include bg-image('./img/invoice_2');
+              }
+              &.special {
+                @include bg-image('./img/special_2');
+              }
+            }
+            .text {
+              display: inline-block;
+              line-height: 16px;
+              font-size: 12px;
+              font-weight: normal;
+            }
+          }
+        }
+        .detail-text {
+          width: 80%;
+          margin: 0 auto;
+          .text {
+            font-weight: normal;
+            text-align: left;
+            text-indent: 2em;
+            font-size: 12px;
+            line-height: 24px;
+            padding: 0 12px;
+          }
+        }
+      }
+    }
+    .detail-close {
+      position: relative;
+      clear: both;
+      width: 32px;
+      height: 32px;
+      font-size: 32px;
+      margin: -50px auto 0;
+    }
+
   }
 }
 </style>
