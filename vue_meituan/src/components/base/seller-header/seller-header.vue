@@ -33,6 +33,10 @@
     <div class="background">
       <img :src="seller.avatar" alt="">
     </div>
+
+    <div class="back" @click="back">
+      <i class="icon-arrow_lift"></i>
+    </div>
   </div>
 </template>
 <script>
@@ -47,6 +51,13 @@ export default {
   watch: {
     'seller': function () {
       console.log('seller hava value')
+    }
+  },
+  methods: {
+    back () {
+      this.$router.push({
+        path: '/index'
+      })
     }
   }
 }
@@ -176,7 +187,24 @@ export default {
     img {
       width: 100%;
       height: 100%;
-      filter: blur(10px);
+      filter: blur(10px); // css 模糊
+    }
+  }
+
+  .back {
+    position: absolute;
+    top: 25px;
+    right: 19px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    i {
+      display: block;
+      font-size: 20px;
+      color: #fff;
+      padding: 7px;
     }
   }
 }
