@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="goods">
+      <!-- 类型 -->
       <div class="menu-wrapper" ref="menuRef">
         <ul>
           <li class="menu-item" v-for="(item, index) in goods"
@@ -11,20 +12,59 @@
           </li>
         </ul>
       </div>
+      <div class="foods-wrapper" ref="foodsRef">
+        <ul>
+          <li class="foods-list foods-list-hook" v-for="item in goods"  :key="item" ref=foodList>
+            <h1 class="title">{{ item.name }}</h1>
+            <ul>
+              <li class="foods-item" v-for="food in item.foods" :key="food" @click="toFoodDetail(food, $event)">
+                <div class="icon">
+                  <img v-lazy="food.icon">
+                </div>
+
+                <div class="content">
+                  <h2 class="name">{{ food.name }}</h2>
+                  <p class="desc">{{ food.description }}</p>
+
+                  <div class="extra">
+                    <span class="count">月售{{ food.sellCount }}</span>
+                    <span class="rating">好评率{{ food.rating }}</span>
+                  </div>
+
+                  <div class="price">
+                    <span class="now">${{ food.price }}</span>
+                    <span class="old" v-show="food.oldPrice">${{ food.oldPrice }}</span>
+                  </div>
+
+                  <div class="control">
+                    <cart-control :food="food" @drop="drop"></cart-control>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import BScroll from 'better-scroll'
+import CartControl from 'base/cart-cotrol/cart-control'
 
 export default {
+  components: {
+    CartControl
+  },
   data () {
     return {
       goods: [],
       classMap: ['decrease', 'discount', 'special', 'invoice', 'guarantee'],
       listHeight: [],
       scrollY: 0,
-      selectedFood: {}
+      selectedFood: {},
+      currentIndex: 0
     }
   },
   props: {
@@ -38,10 +78,30 @@ export default {
         }
 
         setTimeout(() => {
+          this._initScroll()
         }, 20)
       }).catch(err => {
         console.log('goods err', err)
       })
+    },
+    _initScroll () {
+      this.menuScroll = new BScroll(this.$refs.menuRef, {
+        click: true
+      })
+      this.foodsScroll = new BScroll(this.$refs.foodsRef, {
+        click: true,
+        probeType: 3
+      })
+      this.foodsScroll.on('scroll', pos => {
+        this.scrollY = Math.abs(Math.floor(pos.y))
+      })
+    },
+    selectMenu (index, event) {
+      this.currentIndex = index
+      if (!event._constructed) {
+        return
+      }
+      console.log('select menu')
     }
   },
   created () {
@@ -49,17 +109,17 @@ export default {
     console.log(' goods create')
   },
   computed: {
-    currentIndex () {
-      for (let i = 0; i < this.listHeight.length; i++) {
-        let h1 = this.listHeight[i]
-        let h2 = this.listHeight[i + 1]
+    // currentIndex () {
+    //   for (let i = 0; i < this.listHeight.length; i++) {
+    //     let h1 = this.listHeight[i]
+    //     let h2 = this.listHeight[i + 1]
 
-        if ((this.scrollY >= h1 && this.scrollY < h2) || !h2) {
-          return i
-        }
-      }
-      return 0
-    },
+    //     if ((this.scrollY >= h1 && this.scrollY < h2) || !h2) {
+    //       return i
+    //     }
+    //   }
+    //   return 0
+    // },
     selectFoods () {
       let select = []
       this.goods.forEach((good) => {
@@ -130,6 +190,86 @@ export default {
           }
           &.special {
             @include bg-image('./img/special_3');
+          }
+        }
+      }
+    }
+
+  }
+  .foods-wrapper {
+    float: 1;
+    .foods-list {
+      .title {
+        padding-left: 14px;
+        height: 26px;
+        line-height: 26px;
+        border-left: 2px solid #d9dde1;
+        font-size: 12px;
+        color: rgb(147, 153, 159);
+        background-color: #f3f5f7;
+      }
+      .foods-item {
+        position: relative;
+        display: flex;
+        margin: 18px;
+        padding-bottom: 18px;
+        @include onepx('bottom', true);
+        .icon {
+          flex: 0 0 57px;
+          width: 57px;
+          height: 57px;
+          margin-right: 10px;
+          img {
+            width: 57px;
+            height: 57px;
+          }
+        }
+        .content {
+          flex: 1;
+          .name {
+            font-size: 14px;
+            margin: 2px 0 8px 0;
+            height: 14px;
+            line-height: 14px;
+            color: rgb(7, 17, 27);
+          }
+          .desc {
+            margin-bottom: 8px;
+            line-height: 14px;
+            font-size: 10px;
+            color: rgb(147, 153, 159);
+          }
+          .extra {
+            margin-bottom: 8px;
+            line-height: 12px;
+            font-size: 0;
+            color: rgb(147, 153, 159);
+            .count {
+              font-size: 10px;
+              margin-right: 12px;
+            }
+            .rating {
+              font-size: 10px;
+            }
+          }
+          .price {
+            font-weight: 700;
+            line-height: 24px;
+            .now {
+              margin-right: 8px;
+              font-size: 14px;
+              color: rgb(240, 20, 20);
+            }
+            .old {
+              font-size: 10px;
+              color: rgb(147, 153, 159);
+              text-decoration: line-through;
+            }
+          }
+          .control {
+            position: absolute;
+            right: 0;
+            bottom: 1px;
           }
         }
       }

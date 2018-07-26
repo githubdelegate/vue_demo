@@ -6,7 +6,6 @@
 
     <div class="right">
       <div class="name">{{ data.name }}</div>
-
       <div class="mid clearfix">
         <star class="fl" :size="24" :score="data.wm_poi_score"></star>
         <span class="count fl">月售{{ data.month_sale_num }}</span>
