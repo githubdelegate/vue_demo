@@ -59,6 +59,7 @@ export default {
       }
 
       // 将当前 dom 传递出去，用来做小球飞入效果
+      console.log('传递出去 dom')
       this.$emit('drop', event.target)
     }
   },

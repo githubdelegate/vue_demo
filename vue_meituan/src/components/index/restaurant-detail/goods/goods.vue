@@ -45,6 +45,8 @@
           </li>
         </ul>
       </div>
+      <shop-cart ref="shopcartRef" :selectFoods="selectFood">
+      </shop-cart>
     </div>
   </div>
 </template>
@@ -52,10 +54,12 @@
 import axios from 'axios'
 import BScroll from 'better-scroll'
 import CartControl from 'base/cart-cotrol/cart-control'
+import ShopCart from 'base/shopcart/shopcart'
 
 export default {
   components: {
-    CartControl
+    CartControl,
+    ShopCart
   },
   data () {
     return {
@@ -102,6 +106,11 @@ export default {
         return
       }
       console.log('select menu')
+    },
+    drop (target) {
+      this.$nextTick(() => {
+        this.$refs.shopcartRef.drop(target)
+      })
     }
   },
   created () {
