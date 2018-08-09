@@ -45,7 +45,7 @@
           </li>
         </ul>
       </div>
-      <shop-cart ref="shopcartRef" :selectFoods="selectFood">
+      <shop-cart ref="shopcartRef" :selectFoods="selectFoods" :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice">
       </shop-cart>
     </div>
   </div>
